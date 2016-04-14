@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common :: head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container">
+
+		<div class="jumbotron">
+			<h1>Trading Card Game Asset Manager</h1>
+
+			<p>Get started creating assets and managing your game assets now.</p>
+
+			<p>
+				<a th:href="@{/edit/card}">Create new cards</a>
+			</p>
+			<p>
+				<a th:href="@{/view/cards}">View cards</a>
+			</p>
+			<p>
+				<a th:href="@{/uploadImages}">Upload images</a>
+			</p>
+			<p>
+				<a th:href="@{/view/all}">View all</a>
+			</p>
+			<br/>
+			<p>
+				<a th:href="@{/settings}">Settings</a>
+			</p>
+
+		</div>
+
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+</body>
+</html>

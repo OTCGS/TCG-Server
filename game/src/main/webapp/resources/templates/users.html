@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <link rel="icon" th:href="@{/resources/img/favicon.ico}"/>
+
+    <title>Trading Card Game</title>
+
+    <!-- Bootstrap transactions CSS -->
+    <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <style>
+        body {
+        min-height: 2000px;
+        padding-top: 70px;
+        }
+    </style>
+
+</head>
+
+<head th:include="common ::head"/>
+
+<body>
+
+<div th:include="common :: navbar"></div>
+
+<div class="container">
+
+    <!-- Main component for a primary marketing message or call to action -->
+    <div>
+        <table class="table">
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Enabled</th>
+                <th>Name</th>
+                <th>Password</th>
+            </tr>
+            <tr th:each="userDetails : ${users}">
+                <td th:text="${userDetails.id}">123123-123123-123</td>
+                <td th:text="${userDetails.email}">klausi@example.com</td>
+                <td th:text="${userDetails.enabled}">true</td>
+                <td th:switch="${userDetails.name}? ${userDetails.name} : 'Not set'">SomeNickname</td>
+                <td th:text="${userDetails.password}">myPassword</td>
+                <td>
+                    <form action="/deleteAccount" method="post">
+                        <input type="hidden" name="userId" th:value="${userDetails.id}" value="username"/>
+                        <input value="delete" type="submit"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<!-- /container -->
+
+
+<!-- Bootstrap transactions JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="/resources/js/bootstrap.min.js"></script>
+</body>
+</html>

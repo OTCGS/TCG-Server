@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common :: head" />
+
+<body>
+	<div th:include="common :: navbar">navbar</div>
+
+	<div class="container">
+		<form>
+			<div class="form-group">
+				<label for="id_name">Server name</label>
+				<input type="text" class="form-control" id="id_name" />
+			</div>
+			<div class="form-group">
+				<label for="id_url">Server url</label>
+				<input type="text" class="form-control" id="id_url" />
+			</div>
+			<div class="form-group">
+				<label for="id_icon">Server icon</label>
+				<div>
+					<img id="id_icon" src="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="id_booster_size">Server booster size</label>
+				<input type="text" class="form-control" id="id_booster_size" />
+			</div>
+			<button type="button" id="id_button" class="btn btn-default">Save</button>
+		</form>
+		<div id="id_done"></div>
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/tcg-image-picker.js"></script>
+	<script th:inline="javascript" type="text/javascript">
+		function update() {
+			$.getJSON([[@{/api/settings}]], function(data) {
+				$('#id_url').val(data["serverUrl"]);
+				$('#id_name').val(data["serverName"]);
+				$('#id_icon').attr('src', '/images/' + data["serverIconId"] + '/thumb');
+				$('#id_icon').attr('data-uuid', data["serverIconId"]);
+				$('#id_booster_size').val(data["boosterSize"]);
+			});
+		}
+		$(document).ready(function() {
+			$('#id_button').on('click', function() {
+		    	$('#id_done').empty();
+				$.ajax({
+				    url: [[@{/api/settings}]],
+				    type: 'PUT',
+				    data: {serverName: $('#id_name').val(),
+				    	serverUrl: $('#id_url').val(),
+			    		boosterSize: $('#id_booster_size').val(),
+			    		serverIconId: $('#id_icon').attr('data-uuid')},
+			   	 	success: function(result) {
+			    		$('#id_done').append('<span class="label label-success">Success</span>');
+			    		update();
+			    	},
+			    	failure: function(result) {
+			    		$('#id_done').append('<span class="label label-danger">Failed</span>');
+			    		update();
+			    	}
+				});
+			});
+			var select_image_dialog = make_dialog(function(uuid) {
+				$('#id_icon').attr('src', '/images/' + uuid + '/thumb');
+				$('#id_icon').attr('data-uuid', uuid);
+			});
+			$('#id_icon').on('click', function() {
+				select_image_dialog.show();
+			})
+		});
+		update();
+	</script>
+</body>
+</html>

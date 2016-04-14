@@ -1,0 +1,130 @@
+buildscript {
+    repositories { jcenter() }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.2.RELEASE")
+        classpath 'org.springframework:springloaded:1.2.3.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'spring-boot'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '0.1'
+
+repositories {
+	jcenter()
+    mavenCentral()
+	mavenLocal()
+}
+
+task genJaxb {
+    ext.sourcesDir = "src/main/jaxb"
+    ext.classesDir = "build/classes/jaxb"
+    ext.schema = "src/main/resources/service.xsd"
+
+    outputs.dir classesDir
+}
+
+genJaxb << {
+    project.ant {
+        taskdef name: "xjc", classname: "com.sun.tools.xjc.XJCTask",
+                classpath: configurations.jaxb.asPath
+        mkdir(dir: sourcesDir)
+        mkdir(dir: classesDir)
+
+        xjc(destdir: sourcesDir, schema: schema) {
+            arg(value: "-wsdl")
+            produces(dir: sourcesDir, includes: "**/*.java")
+        }
+
+        javac(destdir: classesDir, source: 1.8, target: 1.8, debug: true,
+                debugLevel: "lines,vars,source",
+                includeantruntime: false,
+                classpath: configurations.jaxb.asPath) {
+            src(path: sourcesDir)
+            include(name: "**/*.java")
+            include(name: "*.java")
+        }
+
+        copy(todir: classesDir) {
+            fileset(dir: sourcesDir, erroronmissingdir: false) {
+                exclude(name: "**/*.java")
+            }
+        }
+    }
+}
+
+configurations {
+    jaxb
+}
+
+distZip.dependsOn ":dvs:install"
+mainClassName = "info.krumholz.tcgservice.Main"
+
+task afterEclipseImport {
+	dependsOn "genJaxb"
+}
+
+sourceSets {
+    jaxb{
+        java{
+            srcDir 'src/main/jaxb'
+        }
+    }
+}
+dependencies {
+
+	// dvs
+	compile 'info.krumholz.dvs:dvs:0.3-SNAPSHOT'
+
+	// Image scaling
+	compile 'org.imgscalr:imgscalr-lib:4.2'
+
+    // Security
+
+    // Web
+    compile ('org.springframework.boot:spring-boot-starter-web') 
+ 
+    // Thymeleaf
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Webservice implementation dependencies
+    compile 'org.springframework.boot:spring-boot-starter-ws'
+    compile 'wsdl4j:wsdl4j:1.6.1'
+    jaxb 'com.sun.xml.bind:jaxb-xjc:2.2.4-1'
+    compile files(genJaxb.classesDir).builtBy(genJaxb)
+
+    // Logging
+    compile ('org.springframework.boot:spring-boot-starter-logging')
+
+	// jetty
+    compile 'org.springframework.boot:spring-boot-starter-jetty'
+
+    // Test dependencies
+    testCompile 'org.springframework:spring-test:4.0.5.RELEASE'
+    testCompile 'junit:junit:4.11'
+    
+    // Json
+    compile 'com.fasterxml.jackson.core:jackson-core:2.5.3'
+    
+    // comandline parser
+    compile 'commons-cli:commons-cli:1.3'
+    compile 'commons-io:commons-io:2.4'    
+
+    compile group: 'com.google.guava', name: 'guava', version: '18.0'
+    runtime group: 'com.google.guava', name: 'guava', version: '18.0'
+
+	compile group: 'org.msgpack', name: 'jackson-dataformat-msgpack', version: '0.7.0-p9' // object mapping
+    compile group: 'org.msgpack', name: 'msgpack-core', version: '0.7.0-M6' // encoding
+
+    runtime 'commons-io:commons-io:2.4'
+    runtime 'commons-fileupload:commons-fileupload:1.3.1'
+	runtime group: 'org.msgpack', name: 'jackson-dataformat-msgpack', version: '0.7.0-p9' // object mapping
+    runtime group: 'org.msgpack', name: 'msgpack-core', version: '0.7.0-M6' // encoding
+
+}
+
+defaultTasks 'bootRun'

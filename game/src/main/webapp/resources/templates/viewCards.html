@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common ::head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container">
+
+		<div>
+			<table class="table table-hover table-condensed" data-sort-name="cardNumber" data-sort-order="desc">
+				<thead>
+					<tr>
+						<th data-field="cardNumber" data-sortable="true">Card number</th>
+						<th data-field="cardName" data-sortable="true">Card name</th>
+						<th data-field="editionName" data-sortable="true">Card edition</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="card : ${cardDataList}" class="clickable-row"
+						th:attr="data-href='/viewCard?uuid=' + ${card.getId().toString()}">
+						<td th:text="${card.getCardNumber()}">1</td>
+						<td th:text="${card.getCardName()}">Water Serpent</td>
+						<td th:text="${card.getEditionName()}">Test adventures</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<!-- /container -->
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/bs-table/bootstrap-table.min.js"></script>
+	<script>
+		jQuery(document).ready(function($) {
+			$(".clickable-row").click(function() {
+				window.document.location = $(this).data("href");
+			});
+		});
+	</script>
+</body>
+</html>

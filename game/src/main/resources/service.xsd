@@ -1,0 +1,434 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://krumholz.info/tcgservice" targetNamespace="http://krumholz.info/tcgservice"
+	elementFormDefault="qualified">
+
+	<!-- Transactions -->
+	<xs:element name="submitTransactionsRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="transaction" type="tns:transaction"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="submitTransactionsResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="success" type="xs:boolean" />
+				<xs:element name="errorMessage" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="registerRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="user" type="tns:key" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="registerResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="users" type="tns:key" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="broadcastMessageRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="relayMessage" type="tns:relayMessage" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="broadcastMessageResponse">
+		<xs:complexType>
+			<xs:sequence />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="relayMessageRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="relayMessage" type="tns:relayMessage" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="relayMessageResponse">
+		<xs:complexType>
+			<xs:sequence />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getRelayMessageRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="for" type="tns:key" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getRelayMessageResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="relayMessage" type="tns:relayMessage" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getHeadsRequest">
+		<xs:complexType>
+			<xs:sequence />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getHeadsResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="transactions" type="tns:transaction"
+					maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getTransactionRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="hash" type="xs:base64Binary" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getTransactionResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="transaction" type="tns:transaction"
+					minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Server Information -->
+
+	<xs:element name="ServerIdentityRequest">
+		<xs:complexType>
+			<xs:sequence />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="ServerIdentityResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="identity" type="tns:serverIdentity" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Data retrieval -->
+
+	<xs:element name="listCardDataRequest">
+		<xs:complexType>
+			<xs:sequence />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="listCardDataResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="uuids">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="uuid" type="tns:uuid" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getCardDataRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="cardDataId" type="tns:uuid" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getCardDataResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="cardData" type="tns:cardData" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getCardInstanceRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="cardInstanceId" type="tns:uuid" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getCardInstanceResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="cardInstance" type="tns:cardInstance" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getImageDataRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="imageId" type="tns:uuid" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getImageDataResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="imageData" type="tns:imageData" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="createCardInstanceRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ownerKey" type="tns:key" />
+				<xs:element name="cardDataId" type="tns:uuid" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="createCardInstanceResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="transactions">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="transaction" type="tns:transaction"
+								maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="listRuleSetRequest">
+		<xs:complexType>
+			<xs:sequence />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="listRuleSetResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="uuids">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="uuid" type="tns:uuid" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getRuleSetRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="id" type="tns:uuid" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="getRuleSetResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ruleSet" type="tns:ruleSet" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="createBoosterRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ownerKey" type="tns:key" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="createBoosterResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="transactions">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="transaction" type="tns:transaction"
+								maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Types -->
+	<xs:complexType name="cardInstance">
+		<xs:sequence>
+			<xs:element name="id" type="tns:uuid" />
+			<xs:element name="cardDataId" type="tns:uuid" />
+			<xs:element name="creator" type="tns:key" />
+			<xs:element name="signature" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ruleSet">
+		<xs:sequence>
+			<xs:element name="id" type="tns:uuid" />
+			<xs:element name="creator" type="tns:key" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="revision" type="xs:int" />
+			<xs:element name="script" type="xs:string" />
+			<xs:element name="mandatoryKeys">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="key" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="name" type="xs:string" />
+									<xs:element name="valueType" type="xs:string" />
+									<!-- value types: int, string, script, -->
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="signature" type="xs:base64Binary" />
+
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="cardData">
+		<xs:sequence>
+			<xs:element name="id" type="tns:uuid" />
+			<xs:element name="creator" type="tns:key" />
+			<xs:element name="edition" type="xs:string" />
+			<xs:element name="cardRevision" type="xs:int" />
+			<xs:element name="imageId" type="tns:uuid" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="values">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="keyValue" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="key" type="xs:string" />
+									<xs:element name="type" type="xs:string" />
+									<xs:element name="value" type="xs:string" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="signature" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="imageData">
+		<xs:sequence>
+			<xs:element name="id" type="tns:uuid" />
+			<xs:element name="image" type="xs:base64Binary" />
+			<xs:element name="creator" type="tns:key" />
+			<xs:element name="signature" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="transaction">
+		<xs:sequence>
+			<xs:element name="a" type="tns:key" />
+			<xs:element name="b" type="tns:key" />
+			<xs:element name="signatureA" type="xs:base64Binary" />
+			<xs:element name="signatureB" type="xs:base64Binary" />
+			<xs:element name="transfers">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="transfer" type="tns:transfer"
+							maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="transfer">
+		<xs:sequence>
+			<xs:element name="giver" type="tns:key" />
+			<xs:element name="recipient" type="tns:key" />
+			<xs:element name="cardId" type="xs:string" />
+			<xs:element name="creator" type="tns:key" />
+			<xs:element name="cardTransferIndex" type="xs:int" />
+			<xs:element name="previousTransactionHash" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="key">
+		<xs:sequence>
+			<xs:element name="modulus" type="xs:base64Binary" />
+			<xs:element name="exponent" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="serverIdentity">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="key" type="tns:key" />
+			<xs:element name="icon" type="tns:uuid" />
+			<xs:element name="uri" type="xs:string" />
+			<xs:element name="revision" type="xs:int" />
+			<xs:element name="signature" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="relayMessage">
+		<xs:sequence>
+			<xs:element name="from" type="tns:key" />
+			<xs:element name="to" type="tns:key" />
+			<xs:element name="data" type="xs:base64Binary" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="uuid">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+
+	<xs:simpleType name="player">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="none" />
+			<xs:enumeration value="player1" />
+			<xs:enumeration value="player2" />
+			<xs:enumeration value="any" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="displayType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="hand" />
+			<xs:enumeration value="stack" />
+			<xs:enumeration value="row" />
+			<xs:enumeration value="column" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common ::head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container">
+
+		<div>
+			<table class="table">
+				<tr>
+					<th>Id</th>
+					<th>MediaType</th>
+				</tr>
+				<tr th:each="asset : ${assets}">
+					<td th:text="${asset.getId().toString()}">123123-123123-123</td>
+					<td
+						th:text="${asset.getMetaData() == null}? 'No metadata':${asset.getMetaData().get('content-type')}">text/xml</td>
+					<td>
+						<form action="/deleteAsset" method="post">
+							<input type="hidden" name="assetId"
+								th:value="${asset.getId().toString()}" value="assetId" /> <input
+								value="delete" type="submit" />
+						</form>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+	<!-- /container -->
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+</body>
+</html>

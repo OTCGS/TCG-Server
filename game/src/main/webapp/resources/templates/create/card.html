@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common :: head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container" th:switch="${error}">
+
+		<div th:case="noEditions">At least one Edition has to be created. <a th:href="@{/createEdition}">Click here to create one.</a></div>
+		<form th:case="*" th:action="@{/createCard}" method="post" enctype="multipart/form-data">
+			<input type="text" name="cardName" placeholder="Name" />
+			<br />
+			<select name="editionName">
+				<option th:each="editionName : ${editionNames}" th:text="${editionName}">Some edition name</option>
+			</select>
+			<br />
+			<select id="imageselect" name="imageId" class="masonry image-picker">
+			<!-- TODO: imageSource and value splitting -->
+				<option class="option" th:each="imageSource : ${imageSources}"
+					th:attr="value=${imageSource.split('/')[imageSource.split('/').length - 2]},data-img-src=${imageSource}"
+					th:text="${imageSource}">someImage</option>
+			</select>
+			<br />
+			<input type="submit" value="create" />
+		</form>
+
+	</div>
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/image-picker.min.js"></script>
+	<script src="/resources/js/isotope.pkgd.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			var select = $("#imageselect");
+			select.imagepicker();
+			var list = $(".image_picker_selector");
+			list.masonry({
+				itemSelector : '.thumbnail',
+				columnWidth : 80,
+				gutter : 5
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common ::head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container">
+
+		<div>
+			<table id="id_table" data-toggle="table" data-sort-name="cardNumber"
+				data-sort-order="asc">
+				<thead>
+					<tr>
+						<th class="col-xs-1" data-field="cardImage" data-sortable="false">Image</th>
+						<th data-field="uuid" data-sortable="true">UUID</th>
+						<th class="col-xs-2"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="id : ${imageIdList}"
+						th:attr="data-link='/images/' + ${id.toString()}">
+						<td><img th:src="@{'/images/' + ${id.toString()} + '/thumb'}" /></td>
+						<td th:text="${id.toString()}">2133-2313123-12312321</td>
+					<td>
+						<button type="button" class="deleteButton" th:attr="data-href=${id.toString()}">
+						delete
+						</button>
+					</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<!-- /container -->
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/bs-table/bootstrap-table.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$(".deleteButton").on("click", function() {
+			$.ajax({
+				url : "/database/" + $(this).attr("data-href"),
+				type : 'DELETE',
+				success : function(result) {
+					location.reload();
+				},
+				error : function(result) {
+					console.log("error" + result);
+				}
+			});
+			});
+			$('#id_table').on('click-row.bs.table', function(e, row, $element) {
+				window.document.location = $element.data("link");
+			});
+		});
+	</script>
+</body>
+</html>

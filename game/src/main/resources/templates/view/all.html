@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common ::head" />
+
+<body>
+	<div th:include="common :: navbar"></div>
+	<div class="container">
+		<div>
+			<table class="table">
+				<tr>
+					<th>Id</th>
+					<th>MediaType</th>
+				</tr>
+				<tr th:each="asset : ${assets}">
+					<td th:text="${asset.id.toString()}">123123-123123-123</td>
+					<td th:text="${asset.contentType}">text/xml</td>
+					<td>
+						<button type="button" class="deleteButton" th:attr="data-href=${asset.id.toString()}">
+						delete
+						</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$(".deleteButton").on("click", function() {
+			$.ajax({
+				url : "/database/" + $(this).attr("data-href"),
+				type : 'DELETE',
+				success : function(result) {
+					location.reload();
+				},
+				error : function(result) {
+					console.log("error" + result);
+				}
+			});
+			});
+		});
+	</script>
+</body>
+</html>

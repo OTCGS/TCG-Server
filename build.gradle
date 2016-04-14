@@ -1,0 +1,3 @@
+apply plugin: 'wrapper'
+
+wrapper.gradleVersion = '2.5'

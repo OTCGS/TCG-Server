@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common ::head" />
+
+<body>
+	<div th:include="common :: navbar"></div>
+	<div class="container">
+		<p th:if="${error != null}" th:text="${error}"></p>
+		<p th:unless="${error != null}">
+			<br />
+			<img th:src="@{'/images/' + ${card.imageId}}" />
+			<br />
+			Name: <span th:text="${card.name}">Water serpent</span>
+			<br />
+			Edition: <span th:text="${card.edition}">Test adventures</span>
+			<br />
+			Uuid: <span th:text="${card.id.toString()}">12312-123123123-123123</span>
+			<br />
+			ImageId: <span th:text="${card.imageId.toString()}">123123-123123123-12312</span>
+			<br />
+			Creator: <span
+				th:text="${beans.base64Encoder.encodeToString(beans.md5Hashfunction.hashBytes(card.creator.getEncoded()).asBytes())}">123123-123123123-12312</span>
+			<br />
+		<div>
+			Values:
+			<br />
+			<div th:each="keyValue : ${card.values.entrySet()}">
+				<div style="margin-left: 10px"
+					th:text="${keyValue.getKey() + ': ' + keyValue.getValue()}">
+					strength: 5
+					<br />
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+</body>
+</html>

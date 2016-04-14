@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common :: head" />
+
+<body>
+	<div th:include="common :: navbar"></div>
+
+	<div class="container" th:switch="${error}">
+
+		<form th:case="*" th:action="@{/createRuleset}" method="post"
+			enctype="multipart/form-data">
+			<input type="text" name="rulesetName" placeholder="Name" />
+			<br />
+			<input id="editor" type="text" name="rulesetText" placeholder="Name" />
+			<br />
+			<input type="submit" value="create" />
+		</form>
+
+	</div>
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/typescript/typescript.js"></script>
+	<script src="/resources/js/ace/ace.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script>
+		//var editor = ace.edit("editor");
+		//editor.setTheme("ace/theme/twilight");
+		//editor.getSession().setMode("ace/mode/typescript");
+		//editor.setOptions({
+	//		minLines: 20,
+	//	    maxLines: 20
+	//	});
+	</script>
+</body>
+</html>

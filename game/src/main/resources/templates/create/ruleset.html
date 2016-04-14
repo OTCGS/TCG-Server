@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common :: head" />
+
+<body>
+	<div th:include="common :: navbar"></div>
+
+	<div class="container" th:switch="${error}">
+
+		<form th:case="*" th:action="@{/createRuleset}" method="POST"
+			enctype="multipart/form-data">
+			<input id="name" type="text" placeholder="Name" />
+			<br />
+			<input id="editor" type="text" placeholder="Text" />
+			<br />
+			<input id="button" type="button" value="create" />
+		</form>
+
+	</div>
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/typescript/typescript.js"></script>
+	<script src="/resources/js/ace/ace.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script th:inline="javascript" type="text/javascript">
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/twilight");
+		editor.getSession().setMode("ace/mode/typescript");
+		editor.setOptions({
+				minLines: 20,
+			    maxLines: 20
+			});
+		$('#button').on('click', function() {
+			$.post([[@{/createRuleset}]], {'name': '' + $('#name').val(), 'text': '' + editor.getSession().getValue()}).success(
+					function() {
+						$('#name').val('');
+						editor.getSession().setValue('');
+					});
+		});
+	</script>
+</body>
+</html>

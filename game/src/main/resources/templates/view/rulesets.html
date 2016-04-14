@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common ::head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container">
+
+		<div>
+			<table data-toggle="table" id="id_table"
+				data-sort-name="name" data-sort-order="desc">
+				<thead>
+					<tr>
+						<th class="col-xs-2" data-field="name" data-sortable="true">Name</th>
+						<th class="col-xs-1" data-field="revision" data-sortable="true">Revision</th>
+						<th data-field="uuid" data-sortable="true">Id</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="ruleset : ${rulesetList}"
+						th:attr="data-link='/edit/ruleset?uuid=' + ${ruleset.id.toString()}">
+						<td th:text="${ruleset.name}">Mau Mau</td>
+						<td th:text="${ruleset.revision}">1</td>
+						<td data-field="uuid" th:text="${ruleset.id.toString()}">1111-111-11111-4334</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<!-- /container -->
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/bs-table/bootstrap-table.min.js"></script>
+	<script>
+		jQuery(document).ready(function($) {
+			$('#id_table').on('click-row.bs.table', function(e, row, $element) {
+				window.document.location = $element.data("link");
+			});
+		});
+	</script>
+</body>
+</html>

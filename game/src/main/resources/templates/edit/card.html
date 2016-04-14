@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common :: head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container" th:switch="${error}">
+		<form th:case="*" th:action="@{/cards}" method="post"
+			class="form-horizontal" enctype="multipart/form-data">
+			<input id="id_uuid" type="hidden" th:value="${uuid}" />
+			<div class="form-group">
+				<label class="control-label col-xs-2" for="id_card_revision">Revision</label>
+				<div class="col-xs-2">
+					<input id="id_card_revision_previous" type="button" value="&lt;"
+						class="form-control" disabled="true" />
+				</div>
+				<div class="col-xs-2">
+					<input id="id_card_revision" type="text" name="revision" data-toggle="tooltip" title="Revision of the card"
+						class="form-control" disabled="true" th:value="${revision}" />
+				</div>
+				<div class="col-xs-2">
+					<input id="id_card_revision_next" type="button" value="&gt;"
+						class="form-control"  disabled="true" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-xs-2" for="id_card_name">Name</label>
+				<div class="col-xs-4">
+					<input id="id_card_name" type="text" name="cardName"
+						class="form-control" placeholder="Name" />
+				</div>
+			</div>
+			<div id='id_add_edition_container' class="form-group">
+				<label class="col-xs-2 control-label" for="id_edition_select">Edition</label>
+				<div class="col-xs-3">
+					<select id="id_edition_select" name="editionName"
+						class="col-xs-2 form-control">
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label" for="id_image_drop_zone">Image</label>
+				<div id="id_image_drop_zone" class="col-xs-2 image-select-zone">
+					<img id="id_image" />
+				</div>
+			</div>
+			<div class="" id="id_key_values"></div>
+			<div class="form-group">
+				<div class="col-xs-2"></div>
+				<div class="col-xs-1">
+					<input class="form-control" type="button" id="id_more_values" data-toggle="tooltip" title="Add more key values" value="+" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-2 control-label" for="submit"></label>
+				<div class="col-xs-2">
+					<input id="id_save_button" class="form-control" type="button"
+						value="create" />
+				</div>
+			</div>
+			<div id="id_done" class="form-group form-group-lg"></div>
+		</form>
+	</div>
+
+	<div id="id_modal_dialog" class="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h3 class="modal-title">Enter new edition name</h3>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input id="id_new_edition_name" class="form-control" type="text"
+							placeholder="edition name" />
+					</div>
+					<div class="form-group">
+						<button id="id_modal_dialog_ok_button" type="button"
+							class="btn btn-primary">Ok</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/tcg-image-picker.js"></script>
+	<script src="/resources/js/cardEditor.js"></script>
+</body>
+</html>

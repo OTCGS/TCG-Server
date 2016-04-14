@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="common ::head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container">
+
+		<div>
+			<table id="id_table" data-toggle="table" data-sort-name="cardNumber"
+				data-sort-order="asc">
+				<thead>
+					<tr>
+						<th class="col-xs-1" data-field="cardImage" data-sortable="true">Image</th>
+						<th class="col-xs-2" data-field="uuid" data-sortable="true">UUID</th>
+						<th data-field="cardName" data-sortable="true">Name</th>
+						<th data-field="editionName" data-sortable="true">Edition</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="card : ${cardDataList}"
+						th:attr="data-link='/edit/card?uuid=' + ${card.id.toString()}">
+						<td><img th:src="@{'/images/' + ${card.imageId} + '/thumb'}" /></td>
+						<td th:text="${card.id}">2133-2313123-12312321</td>
+						<td th:text="${card.name}">Water Serpent</td>
+						<td th:text="${card.edition}">Test adventures</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<!-- /container -->
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+	<script src="/resources/js/bs-table/bootstrap-table.min.js"></script>
+	<script>
+		jQuery(document).ready(function($) {
+			$('#id_table').on('click-row.bs.table', function(e, row, $element) {
+				window.document.location = $element.data("link");
+			});
+		});
+	</script>
+</body>
+</html>

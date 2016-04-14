@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common :: head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container">
+		<form th:action="@{/createEdition}" method="post">
+			<input type="text" name="editionName" placeholder="Name" />
+			<br />
+			<input type="submit" value="create" />
+		</form>
+		<p th:if="${error != null}" th:text="${error}" class="label label-danger"></p>
+		<p th:if="${success != null}" th:text="${success}" class="label label-success"></p>
+	</div>
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+</body>
+</html>

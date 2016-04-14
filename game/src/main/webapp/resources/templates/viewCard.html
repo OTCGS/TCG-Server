@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common ::head" />
+
+<body>
+	<div th:include="common :: navbar"></div>
+	<div class="container">
+		<p th:if="${error != null}" th:text="${error}"></p>
+		<p th:unless="${error != null}">
+			Card number: <span th:text="${card.getCardNumber()}">2</span> rev. <span
+				th:text="${card.getCardRevision()}">1</span>
+			<br />
+			Card name: <span th:text="${card.getCardName()}">Water serpent</span>
+			<br />
+			Edition: <span th:text="${card.getEditionName()}">Test
+				adventures</span>
+			<br />
+			Uuid: <span th:text="${card.getId().toString()}">12312-123123123-123123</span>
+			<br />
+			ImageId: <span th:text="${card.getImageId().toString()}">123123-123123123-12312</span>
+			<br />
+		</p>
+	</div>
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+</body>
+</html>

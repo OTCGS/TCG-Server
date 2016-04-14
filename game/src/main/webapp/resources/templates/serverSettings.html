@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:include="common :: head" />
+
+<body>
+
+	<div th:include="common :: navbar"></div>
+
+	<div class="container">
+
+		<form action="/createCard" method="post" enctype="multipart/form-data">
+			<input type="text" name="name" placeholder="Name" />
+			<br />
+			<select
+				name="editionName" th:each="editionName : ${editionNames}">
+				<option th:text="${editionName}">foo</option>
+			</select> <br /> <input type="file" name="image" /> <br /> <input
+				type="submit" value="create" />
+		</form>
+
+	</div>
+
+
+	<!-- Bootstrap transactions JavaScript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="/resources/js/bootstrap.min.js"></script>
+</body>
+</html>

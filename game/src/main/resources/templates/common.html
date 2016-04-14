@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<link rel="icon" th:href="@{/resources/img/favicon.ico}" />
+
+<title th:text="${title}">My title</title>
+
+<!-- Bootstrap transactions CSS -->
+<link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{/resources/css/tcg.css}" />
+<link rel="stylesheet" th:href="@{/resources/css/image-picker.css}" />
+<link rel="stylesheet"
+	th:href="@{/resources/js/bs-table/bootstrap-table.min.css}" />
+
+<style>
+body {
+	min-height: 2000px;
+	padding-top: 70px;
+}
+</style>
+
+</head>
+
+<body>
+
+	<div th:fragment="navbar">
+		<!-- Fixed navbar -->
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<a th:href="@{/}"><img class="navbar-brand" th:src="${serverIconLink}" /></a>
+					<a class="navbar-brand" th:text="${title}" th:href="@{/}">Trading Card Game</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-expanded="false">Create.. <span
+								class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a th:href="@{/edit/card}">Card</a>
+								</li>
+								<li>
+									<a th:href="@{/createRuleset}">Ruleset</a>
+								</li>
+								<li>
+									<a th:href="@{/uploadImages}">Image</a>
+								</li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"
+								role="button" aria-expanded="false">View.. <span
+								class="caret"></span>
+							</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<a th:href="@{/view/cards}">Cards</a>
+								</li>
+								<li>
+									<a th:href="@{/view/rulesets}">Rulesets</a>
+								</li>
+								<li>
+									<a th:href="@{/view/images}">Images</a>
+								</li>
+								<li>
+									<a th:href="@{/view/all}">All</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a th:href="@{/settings}">Settings</a>
+						</li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div th:fragment="footer">
+		<footer>
+			<p>&copy; Trading Card Game 2014</p>
+		</footer>
+	</div>
+
+</body>
+
+</html>
